@@ -1,5 +1,7 @@
 import { cart } from '../data/cart.js';
 
+import { products } from '../data/products.js';
+
 let productsHTML = '';
 
 products.forEach((product) => {
@@ -77,12 +79,13 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     addedMessageTimeouts[productId] = timeoutId;
 
-    const quantity = Number(quantitySelector.value);
+    const quantity = Number(quantitySelector.value); // transfer to variable
+    quantitySelector.value = 1; // reset to 1
 
     let matchingItem = '';
 
     cart.forEach((item) => {
-      if (productId === item.productId) {
+      if (productId === item.productId) { // check it item already exits in the cart
         matchingItem = item;
       }
     });
