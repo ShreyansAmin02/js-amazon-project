@@ -1,5 +1,6 @@
+import { cart } from '../data/cart.js';
+
 let productsHTML = '';
-let timerID;
 
 products.forEach((product) => {
   productsHTML += `
@@ -55,6 +56,8 @@ products.forEach((product) => {
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+const addedMessageTimeouts = {};
+
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const { productId } = button.dataset; // get the product by its id (button.dataset contians ID as such this shorthand method works)
@@ -63,10 +66,16 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     addedSection.classList.add('added');
 
-    clearTimeout(timerID);
-    timerID = setTimeout(() => {
-      added.classList.remove('added');
+    const previousTimeoutId = addedMessageTimeouts[productId];
+    if (previousTimeoutId) {
+      clearTimeout(previousTimeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      addedSection.classList.remove('added');
     }, 2000);
+
+    addedMessageTimeouts[productId] = timeoutId;
 
     const quantity = Number(quantitySelector.value);
 
@@ -89,11 +98,11 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     let cartQuanity = 0;
 
-    console.log(cart);
-
     cart.forEach((item) => {
       cartQuanity += item.quantity; //adds all the quanitites and saves to varaible 
     });
+
+    console.log(addedMessageTimeouts);
 
     document.querySelector('.js-cart-quantity')
       .innerHTML = cartQuanity;
