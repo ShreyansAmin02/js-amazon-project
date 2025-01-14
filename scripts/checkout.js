@@ -101,7 +101,7 @@ document.querySelectorAll('.js-delete-link')
 
       const container = document.querySelector(
         `.js-cart-item-container-${productId}`
-      );
-      container.remove();
+      ); // look for the container that has the product
+      container.remove(); // remove it
     })
   })
