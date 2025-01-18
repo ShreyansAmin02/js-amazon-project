@@ -97,8 +97,8 @@ function deliveryOptionsHTML(matchingProduct) {
     </div>
 
     `;
-    return html;
   });
+  return html;
 };
 
 document.querySelector('.js-order-summary')
