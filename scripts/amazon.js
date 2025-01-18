@@ -1,4 +1,4 @@
-import { cart, addToCart } from '../data/cart.js';
+import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
 
 import { products } from '../data/products.js';
 
@@ -62,16 +62,15 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 const addedMessageTimeouts = {};
 
-function updateCartQuanity() {
-  let cartQuanity = 0;
-
-  cart.forEach((cartItem) => {
-    cartQuanity += cartItem.quantity; //adds all the quanitites and saves to varaible 
-  });
-
+export function updateCartQuanity() {
+  const cartQuantity = calculateCartQuantity();
   document.querySelector('.js-cart-quantity')
-    .innerHTML = cartQuanity;
-}
+    .innerHTML = cartQuantity;
+  if (cartQuantity === 0) {
+    document.querySelector('.js-cart-quantity')
+      .innerHTML = '';
+  }
+};
 
 function addTimer(productId) {
   const addedSection = document.querySelector(`.js-added-to-cart-${productId}`);
@@ -102,3 +101,5 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
   });
 });
+
+updateCartQuanity();
