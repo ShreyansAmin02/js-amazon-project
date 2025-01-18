@@ -4,6 +4,18 @@ import { products } from '../data/products.js';
 
 import { formatCurrency } from './utils/money.js';
 
+import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
+hello();
+
+const today = dayjs();
+
+const deliveryDate = today.add(7, 'days'); // will add 7 days to todays date
+
+const deliveryOptionOne = deliveryDate.format('dddd, MMMM D');
+
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem) => {
@@ -54,7 +66,7 @@ cart.forEach((cartItem) => {
             <input type="radio" checked class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
             <div>
               <div class="delivery-option-date">
-                Tuesday, June 21
+                ${deliveryOptionOne}
               </div>
               <div class="delivery-option-price">
                 FREE Shipping
