@@ -1,7 +1,7 @@
 import { cart, removeFromCart, updateQuanity, updateDeliveryOption } from '../../data/cart.js';
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
 import { deliveryOptions, getDeliveryOptions, calculateDeliveryDate } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 import { renderCheckoutHeader } from './checkoutHeader.js';
@@ -101,44 +101,18 @@ export function renderOrderSummary() {
           .querySelector(`.js-quantity-label-${productId}`
           );
         quantityLabel.innerHTML = newQuantity;
-        renderCheckoutHeader();
         quantityInput.value = '';
       }
       else if (newQuantity === 0) {
         removeFromCart(productId);
-        renderPaymentSummary();
-        renderOrderSummary();
-        renderCheckoutHeader();
       }
       else {
         alert(`Please enter a valid quantity.\nQuantity must be less than 100.`);
       }
-      document.querySelector(`.js-quantity-input-${productId}`).addEventListener('keydown', () => {
-        if (event.key === 'Enter') {
-          console.log('event.key');
-        }
-        container.classList.remove('is-editing-quantity');
-        const newQuantity = Number(quantityInput.value);
-        console.log(newQuantity);
-        if (newQuantity < 100 && newQuantity > 0) {
-          updateQuanity(productId, newQuantity);
-          const quantityLabel = document
-            .querySelector(`.js-quantity-label-${productId}`
-            );
-          quantityLabel.innerHTML = newQuantity;
-          renderCheckoutHeader();
-          quantityInput.value = '';
-        }
-        else if (newQuantity === 0) {
-          removeFromCart(productId);
-          renderPaymentSummary();
-          renderOrderSummary();
-          renderCheckoutHeader();
-        }
-        else {
-          alert(`Please enter a valid quantity.\nQuantity must be less than 100.`);
-        }
-      })
+
+      renderPaymentSummary();
+      renderOrderSummary();
+      renderCheckoutHeader();
     });
   });
 
