@@ -47,7 +47,11 @@ export function removeFromCart(productId) {
 }
 
 export function calculateCartQuantity() {
-  return cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
+  let totalQuantity = 0;
+  cart.forEach((cartItem) => {
+    totalQuantity += cartItem.quantity;
+  })
+  return totalQuantity;
 }
 
 export function updateQuanity(productId, newQuantity) {
