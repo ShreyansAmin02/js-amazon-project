@@ -1,6 +1,19 @@
+/**
+ * Represents a shopping cart.
+ * @constructor
+ * @param {string} localStorageKey - The key used to store the cart in localStorage.
+ */
 function Cart(localStorageKey) {
   const cart = {
+    /**
+     * The items in the cart.
+     * @type {Array<{productId: string, quantity: number, deliveryOptionId: string}>}
+     */
     cartItems: undefined,
+
+    /**
+     * Loads the cart items from localStorage.
+     */
     loadFromStorage() {
       this.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
 
@@ -16,10 +29,18 @@ function Cart(localStorageKey) {
         }]; // default cart
       }
     },
+
+    /**
+     * Saves the cart items to localStorage.
+     */
     saveToStorage() {
       localStorage.setItem(localStorageKey, JSON.stringify(this.cartItems));
     },
 
+    /**
+     * Adds a product to the cart.
+     * @param {string} productId - The ID of the product to add.
+     */
     addToCart(productId) {
       let matchingItem = '';
 
@@ -46,6 +67,10 @@ function Cart(localStorageKey) {
       this.saveToStorage();
     },
 
+    /**
+     * Removes a product from the cart.
+     * @param {string} productId - The ID of the product to remove.
+     */
     removeFromCart(productId) {
       const newCart = [];
       this.cartItems.forEach((cartItem) => {
@@ -57,6 +82,10 @@ function Cart(localStorageKey) {
       this.saveToStorage();
     },
 
+    /**
+     * Calculates the total quantity of items in the cart.
+     * @returns {number} The total quantity of items in the cart.
+     */
     calculateCartQuantity() {
       let totalQuantity = 0;
       this.cartItems.forEach((cartItem) => {
@@ -65,8 +94,12 @@ function Cart(localStorageKey) {
       return totalQuantity;
     },
 
+    /**
+     * Updates the delivery option for a product in the cart.
+     * @param {string} productId - The ID of the product to update.
+     * @param {string} deliveryOptionId - The ID of the new delivery option.
+     */
     updateDeliveryOption(productId, deliveryOptionId) {
-
       let matchingItem = '';
 
       this.cartItems.forEach((cartItem) => {
@@ -80,6 +113,11 @@ function Cart(localStorageKey) {
       this.saveToStorage();
     },
 
+    /**
+     * Updates the quantity of a product in the cart.
+     * @param {string} productId - The ID of the product to update.
+     * @param {number} newQuantity - The new quantity of the product.
+     */
     updateQuanity(productId, newQuantity) {
       const matchingItem = this.cartItem.find(cartItem => cartItem.productId === productId);
       if (matchingItem) {
@@ -87,7 +125,6 @@ function Cart(localStorageKey) {
         this.saveToStorage();
       }
     }
-
   };
 
   return cart;
