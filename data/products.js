@@ -51,8 +51,6 @@ const product1 = new Product({
   ]
 });
 
-console.log(product1);
-
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
