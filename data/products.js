@@ -74,6 +74,30 @@ class Clothing extends Product {
   }
 }
 
+/*
+const date = new Date();
+console.log(date);
+console.log(date.toLocaleTimeString()); // gives current local time
+ */
+
+/*
+
+function logThis() {
+  console.log(this);
+}
+
+logThis(); // logs undefined as there is no object for it to refer to
+
+logThis.call('hello'); // here the value can be set, as such, it will log "hello"
+
+this // undefined
+const object3 = {
+  method: () => {
+    console.log(this); // this will have the same value as outside the arrow fucntion
+  }
+}
+*/
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
