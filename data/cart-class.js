@@ -61,6 +61,8 @@ class Cart {
         newCart.push(cartItem);
       }
     });
+    this.cartItems = newCart;
+
     this.saveToStorage();
   }
 
@@ -99,11 +101,11 @@ class Cart {
 
 // Usage
 
-const cart = new Cart('cart-oop'); // loads and saves to localStorage wiht key 'cart-oop'
+export const cart = new Cart('cart-oop'); // loads and saves to localStorage wiht key 'cart-oop'
 
 const businessCart = new Cart('cart-business'); // loads and saves to localStorage wiht key 'cart-business'
 
-console.log(cart);
-console.log(businessCart);
-console.log(businessCart instanceof Cart); // to check if a business class was generated
+// console.log(cart);
+// console.log(businessCart);
+// console.log(businessCart instanceof Cart); // to check if a business class was generated
 

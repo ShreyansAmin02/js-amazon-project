@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateQuanity, updateDeliveryOption } from '../../data/cart.js';
+import { cart } from '../../data/cart-class.js';
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 
@@ -12,7 +12,7 @@ export function renderOrderSummary() {
   let cartSummaryHTML = '';
   // let totalItemHeader = document.querySelector('.js-total-items-header');
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const { productId } = cartItem;
 
     const matchingProduct = getProduct(productId);
@@ -73,9 +73,12 @@ export function renderOrderSummary() {
   document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
-      removeFromCart(productId);
+      cart.removeFromCart(productId);
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.remove();
       renderPaymentSummary();
-      renderOrderSummary();
       renderCheckoutHeader();
     });
   });
@@ -101,7 +104,7 @@ export function renderOrderSummary() {
 
       const newQuantity = Number(quantityInput.value);
       if (newQuantity < 100 && newQuantity > 0) {
-        updateQuanity(productId, newQuantity);
+        cart.updateQuanity(productId, newQuantity);
         const quantityLabel = document
           .querySelector(`.js-quantity-label-${productId}`
           );
@@ -109,7 +112,7 @@ export function renderOrderSummary() {
         quantityInput.value = '';
       }
       else if (newQuantity === 0) {
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
       }
       else {
         alert(`Please enter a valid quantity.\nQuantity must be less than 100.`);
@@ -157,7 +160,7 @@ export function renderOrderSummary() {
       element.addEventListener('click', () => {
         const { productId } = element.dataset;
         const { deliveryOptionId } = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        cart.updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary(); // function is re running itself
         renderPaymentSummary();
       })
