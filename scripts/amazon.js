@@ -1,11 +1,14 @@
 import { cart } from '../data/cart-class.js';
 
-import { products } from '../data/products.js';
+import { products, loadProducts } from '../data/products.js';
 
-let productsHTML = '';
+loadProducts(renderProductsGrid);
 
-products.forEach((product) => {
-  productsHTML += `
+function renderProductsGrid() {
+  let productsHTML = '';
+
+  products.forEach((product) => {
+    productsHTML += `
     <div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
@@ -56,11 +59,44 @@ products.forEach((product) => {
         </button>
       </div>
   `;
-});
+  });
 
-document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-const addedMessageTimeouts = {};
+  const addedMessageTimeouts = {};
+
+  function addTimer(productId) {
+    const addedSection = document.querySelector(`.js-added-to-cart-${productId}`);
+
+    addedSection.classList.add('added');
+
+    const previousTimeoutId = addedMessageTimeouts[productId];
+    if (previousTimeoutId) {
+      clearTimeout(previousTimeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      addedSection.classList.remove('added');
+    }, 2000);
+
+    addedMessageTimeouts[productId] = timeoutId;
+  }
+
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const { productId } = button.dataset; // get the product by its id (button.dataset contians ID as such this shorthand method works)
+
+      addTimer(productId);
+
+      cart.addToCart(productId);
+
+      updateCartQuanity();
+
+    });
+  });
+
+  updateCartQuanity();
+}
 
 export function updateCartQuanity() {
   const cartQuantity = cart.calculateCartQuantity();
@@ -71,35 +107,3 @@ export function updateCartQuanity() {
       .innerHTML = '';
   }
 };
-
-function addTimer(productId) {
-  const addedSection = document.querySelector(`.js-added-to-cart-${productId}`);
-
-  addedSection.classList.add('added');
-
-  const previousTimeoutId = addedMessageTimeouts[productId];
-  if (previousTimeoutId) {
-    clearTimeout(previousTimeoutId);
-  }
-
-  const timeoutId = setTimeout(() => {
-    addedSection.classList.remove('added');
-  }, 2000);
-
-  addedMessageTimeouts[productId] = timeoutId;
-}
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    const { productId } = button.dataset; // get the product by its id (button.dataset contians ID as such this shorthand method works)
-
-    addTimer(productId);
-
-    cart.addToCart(productId);
-
-    updateCartQuanity();
-
-  });
-});
-
-updateCartQuanity();
