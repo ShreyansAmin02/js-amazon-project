@@ -12,6 +12,26 @@ import { loadCart } from "../data/cart.js";
 
 import '../data/cart-class.js';
 
+async function loadPage() {
+
+  await loadProductsFetch(); // it will wait for this line to finish before going to the next line, await cna only be used within an async function
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve('value2');
+    });
+  })
+
+  renderCheckoutHeader();
+  renderOrderSummary();
+  renderPaymentSummary();
+
+
+}
+loadPage();
+
+/*
+
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
@@ -21,11 +41,12 @@ Promise.all([
   })
 
 ]).then((values) => {
-  console.log(values);
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
 });
+
+*/
 
 /*
 new Promise((resolve) => {
